@@ -22,17 +22,26 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <h4 class="text-center mb-4">Conectarse a su cuenta</h4>
-                                    <form action="index.html">
-                                        <div class="form-group">
+
+                                    <form method="POST" action="/">
+                                        <div  class="form-group" >
                                             <label><strong>Email</strong></label>
-                                            <input type="email" class="form-control" value="">
+                                            <input class="form-control" name="usuario" placeholder="usuario">
                                         </div>
                                         <div class="form-group">
                                             <label><strong>Contraseña</strong></label>
-                                            <input type="password" class="form-control" value="">
+                                            <input type="password" class="form-control" name="password" placeholder="password">
                                         </div>
+                                        {% with messages = get_flashed_messages() %}
+                                            {% if messages %}
+                                                <div class="notification is-danger">
+                                                    <h4>{{ messages[0] }}</h4> 
+                                                </div>
+                                                <br>
+                                            {% endif %}
+                                        {% endwith %}
                                         <div class="text-center">
-                                            <a type="submit" class="btn btn-primary btn-block" href="{{url_for('escritorio')}}">Sign me in</a>
+                                            <button type="submit" class="btn btn-primary btn-block" href="{{url_for('escritorio')}}">Sign me in</>
                                         </div>
                                     </form>
                                 </div>
