@@ -1,1 +1,64 @@
 {% extends 'app/base.html' %}
+
+
+
+{% block title %} Empresa ABC {% endblock %}
+{% block bodytitle %}LISTA DE EVENTOS{% endblock %}
+{% block body %}
+        
+        <div class="table-responsive">
+            <table id="example" class="display" style="min-width: 845px">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoria</th>
+                        <th>Lugar</th>
+                        <th>Dirección</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evento in eventos %} 
+                    <tr>
+                        <td>{{ evento['nombre'] }}</td>
+                        <td>{{ categorias[evento['categoria_id']]['nombre'] }}</td>
+                        <td></td>
+                        <td>{{ evento['direccion'] }}</td>
+                        <td>id: {{evento['id']}}</td>
+                        <td></td>
+                        <td><button type="button" class="btn btn-danger" name="button" id="{{evento['id']}}">Borrar</button></td>
+                    </tr>
+                    {% endfor %}            
+                </tbody>
+                
+            </table>
+        </div>
+        
+        
+{% endblock %}
+
+{% block scriptjs %}
+ <script>
+     $(document).ready(function(){
+        $("button").click(function(){
+            console.log($(this).attr("id"))
+            var id_evento = $(this).attr("id");
+            $.ajax({
+                 type : 'POST',
+                 url : "{{url_for('escritorio')}}",
+                 contentType: 'application/json;charset=UTF-8',
+                 data : JSON.stringify({'id': id_evento }),
+                 success : (data) => {
+                    console.log('isChat response: ' + data)
+                    location.reload();
+                 },
+                 error : (data) => {
+                     console.log("ERROR:" + data)
+                 }
+            });
+        })
+     });
+ </script>
+{% endblock %}

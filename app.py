@@ -28,8 +28,27 @@ class User(db.Model, UserMixin):
             db.session.add(self)
         db.session.commit()
 
+class Categoria(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(80),nullable=False)
+    eventos = db.relationship('Evento',backref='categoria')
 
+    def __repr__(self):
+        return f'<Categoria {self.nombre}>'
 
+class Evento(db.Model,UserMixin):
+   
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(80),nullable=False)
+    categoria_id = db.Column(db.Integer,db.ForeignKey('categoria.id'),nullable=False)
+    direccion = db.Column(db.String(200),nullable=False)
+    
+
+    def __repr__(self):
+        return f'<Evento: {self.nombre}>'
+
+    
 #####
 @app.route("/",methods=['GET','POST'])
 def login():
@@ -48,9 +67,22 @@ def login():
     return redirect(url_for("escritorio"))
         
 
-@app.route("/escritorio")
+@app.route("/escritorio",methods=['GET','POST'])
 def escritorio():
-    return render_template("app/escritorioUsuario.html")
+
+    if request.method=="POST":
+        print("debug1")
+        id_evento = request.json["id"]
+        print("debug2")
+        evento = db.session.query(Evento).get(id_evento)
+        db.session.delete(evento)
+        print("debug3")
+        db.session.commit()
+        print("debug4")
+        
+    eventos = db.session.query(Evento).all()
+    categorias = db.session.query(Categoria).all()
+    return render_template("app/escritorioUsuario.html",eventos=eventos,categorias=categorias)
 
 
 

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Proyecto cloud </title>
+    <title>{% block title %}{% endblock %} </title>
 
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="{{ url_for('static', filename= 'css/style.css') }}" rel="stylesheet">
@@ -21,7 +21,7 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-                                    <h4 class="text-center mb-4">Conectarse a su cuenta</h4>
+                                    <h4 class="text-center mb-4">Empresa ABC, Trabajamos por la gente, por usted.</h4>
 
                                     <form method="POST" action="/">
                                         <div  class="form-group" >
